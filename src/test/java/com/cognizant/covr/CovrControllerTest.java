@@ -1,6 +1,7 @@
 /* See the file "LICENSE" for the full license governing this code. */
 package com.cognizant.covr;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -68,6 +73,23 @@ public final class CovrControllerTest {
 
 		// Assert
 		assertThat(content, is("{id='1', text='TEXT'}"));
+	}
+
+
+	@Test
+	public void listAllUsersReturnsAllUsers() throws Exception {
+
+		// Exercise
+		final String responseString = mockMvc.perform(get("/visitors"))
+				.andExpect(status().isOk())
+				.andReturn()
+				.getResponse()
+				.getContentAsString();
+
+		List<Visitor> visitors = OBJECT_MAPPER.readValue(responseString,
+				new TypeReference<List<Visitor>>(){});
+
+		assertThat(visitors.isEmpty(),is(false));
 	}
 
 }

@@ -1,9 +1,24 @@
 package com.cognizant.covr;
 
-final class User {
+final class Visitor {
 
+    private String firstName;
 
-    public User(String firstName, String lastName) {
+    private  String lastName;
 
+    public Visitor(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Visitor() {
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }
